@@ -4,7 +4,7 @@
 -- ******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		Database Jamin is aangemaakt + gebruiken (DROP, CREATE, USE)   	 
+-- 01         13-09-2026     MeulenF		Database Jamin is aangemaakt + gebruiken (DROP, CREATE, USE)   	 
 *********************************************************************************/ 
 
 DROP DATABASE IF EXISTS Jamin;
@@ -22,7 +22,7 @@ USE Jamin;
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE Product gemaakt (Stamtabel)	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE Product gemaakt (Stamtabel)	 
 **********************************************************************************/ 
 CREATE TABLE Product 
 (
@@ -42,7 +42,7 @@ CREATE TABLE Product
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE Leverancier gemaakt (Stamtabel)	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE Leverancier gemaakt (Stamtabel)	 
 **********************************************************************************/ 
 CREATE TABLE Leverancier 
 (
@@ -64,7 +64,7 @@ CREATE TABLE Leverancier
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE Allergeen gemaakt (Stamtabel)	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE Allergeen gemaakt (Stamtabel)	 
 **********************************************************************************/ 
 CREATE TABLE Allergeen 
 (
@@ -88,7 +88,7 @@ CREATE TABLE Allergeen
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE Magazijn gemaakt met FK naar Product	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE Magazijn gemaakt met FK naar Product	 
 **********************************************************************************/ 
 CREATE TABLE Magazijn 
 (
@@ -110,7 +110,7 @@ CREATE TABLE Magazijn
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE ProductPerAllergeen gemaakt met FK naar Product en Allergeen	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE ProductPerAllergeen gemaakt met FK naar Product en Allergeen	 
 **********************************************************************************/ 
 CREATE TABLE ProductPerAllergeen 
 (
@@ -132,7 +132,7 @@ CREATE TABLE ProductPerAllergeen
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		CREATE TABLE ProductPerLeverancier gemaakt met FK naar Leverancier en Product	 
+-- 01         13-09-2026     MeulenF		CREATE TABLE ProductPerLeverancier gemaakt met FK naar Leverancier en Product	 
 **********************************************************************************/ 
 CREATE TABLE ProductPerLeverancier 
 (
@@ -161,7 +161,7 @@ CREATE TABLE ProductPerLeverancier
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		13 rijen gevoegd met insert aan tabel Product 
+-- 01         13-09-2026     MeulenF		13 rijen gevoegd met insert aan tabel Product 
 **********************************************************************************/ 
 INSERT INTO Product
 (
@@ -194,7 +194,7 @@ VALUES (1, 'Mintnopjes', '8719587231278', 1, NULL, NOW(6), NOW(6))
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		5 rijen gevoegd met insert aan tabel Leverancier 
+-- 01         13-09-2026     MeulenF		5 rijen gevoegd met insert aan tabel Leverancier 
 **********************************************************************************/ 
 INSERT INTO Leverancier
 (
@@ -221,7 +221,7 @@ VALUES (1, 'Venco', 'Bert van Linge', 'L1029384719', '06-28493827', 1, NULL, NOW
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		5 rijen gevoegd met insert aan tabel Allergeen 
+-- 01         13-09-2026     MeulenF		5 rijen gevoegd met insert aan tabel Allergeen 
 **********************************************************************************/ 
 INSERT INTO Allergeen
 (
@@ -246,7 +246,7 @@ VALUES (1, 'Gluten', 'Dit product bevat gluten', 1, NULL, NOW(6), NOW(6))
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		13 rijen gevoegd met insert aan tabel Magazijn (rij 10 heeft NULL voorraad) 
+-- 01         13-09-2026     MeulenF		13 rijen gevoegd met insert aan tabel Magazijn (rij 10 heeft NULL voorraad) 
 **********************************************************************************/ 
 INSERT INTO Magazijn
 (
@@ -280,7 +280,7 @@ VALUES (1, 1, 5.0, 453, 1, NULL, NOW(6), NOW(6))
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		12 rijen gevoegd met insert aan tabel ProductPerAllergeen 
+-- 01         13-09-2026     MeulenF		12 rijen gevoegd met insert aan tabel ProductPerAllergeen 
 **********************************************************************************/ 
 INSERT INTO ProductPerAllergeen
 (
@@ -312,7 +312,7 @@ VALUES (1, 1, 2, 1, NULL, NOW(6), NOW(6))
 -- *******************************************************************************
 -- Versie     Datum          Auteur			Omschrijving
 -- ******     **********     **********		**************
--- 01         13-09-2026     KadhimH		17 rijen gevoegd met insert aan tabel ProductPerLeverancier 
+-- 01         13-09-2026     MeulenF		17 rijen gevoegd met insert aan tabel ProductPerLeverancier 
 **********************************************************************************/ 
 INSERT INTO ProductPerLeverancier
 (
