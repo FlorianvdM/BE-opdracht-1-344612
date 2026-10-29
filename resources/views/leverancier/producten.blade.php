@@ -1,0 +1,81 @@
+<x-app-layout>
+    <!-- Scenario 02: geen producten, dan na 3 seconden terug naar het overzicht -->
+    @if (count($producten) === 0)
+        <x-slot name="head">
+            <meta http-equiv="refresh" content="3; url={{ route('leveranciers.index') }}">
+        </x-slot>
+    @endif
+
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white p-6">
+
+                <h1 class="text-2xl font-normal mb-6">
+                    <u>Geleverde producten</u>
+                </h1>
+
+                <!-- Gegevens van de gekozen leverancier -->
+                <div class="mb-6 space-y-1 text-base text-gray-900">
+                    <p>Leverancier: {{ $leverancier->Naam }}</p>
+                    <p>Contactpersoon: {{ $leverancier->ContactPersoon }}</p>
+                    <p>Leveranciernummer: {{ $leverancier->LeverancierNummer }}</p>
+                    <p>Mobiel: {{ $leverancier->Mobiel }}</p>
+                </div>
+
+                @if (count($producten) > 0)
+                    <!-- Scenario 01: tabel met de geleverde producten -->
+                    <table class="sorteerbaar w-full border-collapse border border-black text-left text-base">
+                        <thead>
+                            <tr>
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="0" data-type="tekst">
+                                        <span>Naam product</span> <span class="pijl">⇅</span>
+                                    </button>
+                                </th>
+                                <!-- Standaard staat deze kolom aflopend gesorteerd (user story) -->
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="getal" data-richting="aflopend">
+                                        <span>Aantal in magazijn</span> <span class="pijl">▼</span>
+                                    </button>
+                                </th>
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="datum">
+                                        <span>Laatste levering</span> <span class="pijl">⇅</span>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($producten as $product)
+                                <tr>
+                                    <td class="border border-black p-2">{{ $product->ProductNaam }}</td>
+                                    <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
+                                    <td class="border border-black p-2" data-waarde="{{ $product->DatumLaatsteLevering }}">
+                                        {{ date('d-m-Y', strtotime($product->DatumLaatsteLevering)) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <!-- Scenario 02: melding dat dit bedrijf nog niets heeft geleverd -->
+                    <table class="w-full border-collapse border border-black text-center text-base">
+                        <tbody>
+                            <tr>
+                                <td class="border border-black p-6">
+                                    Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                @endif
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Het script dat de sorteerknoppen laat werken (alleen nodig als er een tabel is) -->
+    @if (count($producten) > 0)
+        @include('leverancier.sorteer-script')
+    @endif
+</x-app-layout>
