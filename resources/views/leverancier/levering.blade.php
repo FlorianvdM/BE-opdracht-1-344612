@@ -4,6 +4,9 @@
         <x-slot name="head">
             <meta http-equiv="refresh" content="4; url={{ route('leveranciers.producten', $info->LeverancierId) }}">
         </x-slot>
+
+        <!-- Rode pop-up bovenaan het scherm met de melding -->
+        <x-popup type="fout">{{ $melding }}</x-popup>
     @endif
 
     <div class="py-6">
@@ -14,57 +17,51 @@
                     <u>Levering product</u>
                 </h1>
 
-                @if ($melding)
-                    <!-- Scenario 02: het product wordt niet meer geproduceerd -->
-                    <table class="w-full border-collapse border border-black text-center text-base">
-                        <tbody>
-                            <tr>
-                                <td class="border border-black p-6">{{ $melding }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                @else
-                    <!-- Gegevens van de leverancier en het product -->
-                    <div class="mb-6 space-y-1 text-base text-gray-900">
-                        <p>Leverancier: {{ $info->LeverancierNaam }}</p>
-                        <p>Product: {{ $info->ProductNaam }}</p>
+                <!-- Gegevens van de leverancier en het product -->
+                <div class="mb-6 space-y-1 text-base text-gray-900">
+                    <p>Leverancier: {{ $info->LeverancierNaam }}</p>
+                    <p>Product: {{ $info->ProductNaam }}</p>
+                </div>
+
+                <!-- Het formulier voor een nieuwe levering.
+                     Bij een melding staat alles uit, de ingevulde waarden blijven zichtbaar. -->
+                <form method="POST"
+                      action="{{ route('leveranciers.levering.store', [$info->LeverancierId, $info->ProductId]) }}"
+                      class="max-w-md space-y-4">
+                    @csrf
+
+                    <div>
+                        <label for="aantal" class="block mb-1 text-base">Aantal producteenheden</label>
+                        <input type="number" id="aantal" name="aantal" min="1"
+                               value="{{ old('aantal', request('aantal')) }}"
+                               @disabled($melding)
+                               class="w-full border border-black p-2 disabled:bg-gray-100">
+                        @error('aantal')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Scenario 01: het formulier voor een nieuwe levering -->
-                    <form method="POST"
-                          action="{{ route('leveranciers.levering.store', [$info->LeverancierId, $info->ProductId]) }}"
-                          class="max-w-md space-y-4">
-                        @csrf
+                    <div>
+                        <label for="datum_eerstvolgende_levering" class="block mb-1 text-base">Datum eerstvolgende levering</label>
+                        <input type="date" id="datum_eerstvolgende_levering" name="datum_eerstvolgende_levering"
+                               value="{{ old('datum_eerstvolgende_levering', request('datum_eerstvolgende_levering')) }}"
+                               @disabled($melding)
+                               class="w-full border border-black p-2 disabled:bg-gray-100">
+                        @error('datum_eerstvolgende_levering')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label for="aantal" class="block mb-1 text-base">Aantal producteenheden</label>
-                            <input type="number" id="aantal" name="aantal" min="1" value="{{ old('aantal') }}"
-                                   class="w-full border border-black p-2">
-                            @error('aantal')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div>
+                        <button type="submit" @disabled($melding)
+                                class="border border-black px-6 py-2 hover:bg-gray-100 disabled:opacity-50">
+                            Sla op
+                        </button>
+                    </div>
+                </form>
 
-                        <div>
-                            <label for="datum_eerstvolgende_levering" class="block mb-1 text-base">Datum eerstvolgende levering</label>
-                            <input type="date" id="datum_eerstvolgende_levering" name="datum_eerstvolgende_levering"
-                                   value="{{ old('datum_eerstvolgende_levering') }}"
-                                   class="w-full border border-black p-2">
-                            @error('datum_eerstvolgende_levering')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="flex gap-4 items-center">
-                            <button type="submit" class="border border-black px-6 py-2 hover:bg-gray-100">
-                                Sla op
-                            </button>
-                            <a href="{{ route('leveranciers.producten', $info->LeverancierId) }}" class="underline text-blue-600">
-                                Annuleren
-                            </a>
-                        </div>
-                    </form>
-                @endif
+                <!-- Home en Terug naar Geleverde producten, onder het formulier -->
+                <x-terug-knoppen :terug="route('leveranciers.producten', $info->LeverancierId)" terug-tekst="Terug naar geleverde producten" />
 
             </div>
         </div>

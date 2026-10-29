@@ -6,6 +6,11 @@
         </x-slot>
     @endif
 
+    <!-- Groene pop-up bovenaan na het opslaan van een nieuwe levering (verdwijnt na 4 seconden) -->
+    @if (session('status'))
+        <x-popup type="succes" :seconden="4">{{ session('status') }}</x-popup>
+    @endif
+
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6">
@@ -13,11 +18,6 @@
                 <h1 class="text-2xl font-normal mb-6">
                     <u>Geleverde producten</u>
                 </h1>
-
-                <!-- Bevestiging na het opslaan van een nieuwe levering -->
-                @if (session('status'))
-                    <p class="mb-4 text-green-700">{{ session('status') }}</p>
-                @endif
 
                 <!-- Gegevens van de gekozen leverancier -->
                 <div class="mb-6 space-y-1 text-base text-gray-900">
@@ -37,14 +37,19 @@
                                         <span>Naam product</span> <span class="pijl">⇅</span>
                                     </button>
                                 </th>
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="getal">
+                                        <span>Verpakkingseenheid (kg)</span> <span class="pijl">⇅</span>
+                                    </button>
+                                </th>
                                 <!-- Standaard staat deze kolom aflopend gesorteerd (user story) -->
                                 <th class="border border-black p-2 font-normal">
-                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="getal" data-richting="aflopend">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="getal" data-richting="aflopend">
                                         <span>Aantal in magazijn</span> <span class="pijl">▼</span>
                                     </button>
                                 </th>
                                 <th class="border border-black p-2 font-normal">
-                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="datum">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="3" data-type="datum">
                                         <span>Laatste levering</span> <span class="pijl">⇅</span>
                                     </button>
                                 </th>
@@ -55,7 +60,10 @@
                             @foreach ($producten as $product)
                                 <tr>
                                     <td class="border border-black p-2">{{ $product->ProductNaam }}</td>
-                                    <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
+                                    <!-- Verpakkingseenheid met een komma, zoals bij Overzicht Magazijn Jamin -->
+                                    <td class="border border-black p-2" data-waarde="{{ $product->VerpakkingsEenheid }}">{{ str_replace('.', ',', (string) $product->VerpakkingsEenheid) }}</td>
+                                    <!-- Staat er niets in het magazijn (leeg/NULL)? Dan tonen we 0 -->
+                                    <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig ?? 0 }}">{{ $product->AantalAanwezig ?? 0 }}</td>
                                     <td class="border border-black p-2" data-waarde="{{ $product->DatumLaatsteLevering }}">
                                         {{ date('d-m-Y', strtotime($product->DatumLaatsteLevering)) }}
                                     </td>
@@ -86,6 +94,9 @@
                         </tbody>
                     </table>
                 @endif
+
+                <!-- Home en Terug naar het overzicht, onder de tabel -->
+                <x-terug-knoppen :terug="route('leveranciers.index')" terug-tekst="Terug naar overzicht" />
 
             </div>
         </div>
