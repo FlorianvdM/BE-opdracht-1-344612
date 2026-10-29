@@ -7,13 +7,31 @@
                     <u>Overzicht Magazijn Jamin</u>
                 </h1>
 
-                <table class="w-full border-collapse border border-black text-left text-base">
+                <!-- class "sorteerbaar" zorgt dat de sorteerknoppen werken -->
+                <table class="sorteerbaar w-full border-collapse border border-black text-left text-base">
                     <thead>
                         <tr>
-                            <th class="border border-black p-2 font-normal">Barcode</th>
-                            <th class="border border-black p-2 font-normal">Naam</th>
-                            <th class="border border-black p-2 font-normal">Verpakkingseenheid</th>
-                            <th class="border border-black p-2 font-normal">Aantalaanwezig</th>
+                            <!-- Standaard staat deze kolom oplopend gesorteerd (de controller sorteert op Barcode) -->
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="0" data-type="tekst" data-richting="oplopend">
+                                    <span>Barcode</span> <span class="pijl">▲</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="tekst">
+                                    <span>Naam</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="getal">
+                                    <span>Verpakkingseenheid</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="3" data-type="getal">
+                                    <span>Aantalaanwezig</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
                             <th class="border border-black p-2 text-center font-normal">Allergenen Info</th>
                             <th class="border border-black p-2 text-center font-normal">Leverantie Info</th>
                         </tr>
@@ -23,8 +41,9 @@
                             <tr>
                                 <td class="border border-black p-2">{{ $product->Barcode }}</td>
                                 <td class="border border-black p-2">{{ $product->Naam }}</td>
-                                <td class="border border-black p-2">{{ str_replace('.', ',', (string)$product->VerpakkingsEenheid) }}</td>
-                                <td class="border border-black p-2">{{ $product->AantalAanwezig }}</td>
+                                <!-- data-waarde bevat het getal met een punt, zodat het goed sorteert (2,5 wordt 2.5) -->
+                                <td class="border border-black p-2" data-waarde="{{ $product->VerpakkingsEenheid }}">{{ str_replace('.', ',', (string)$product->VerpakkingsEenheid) }}</td>
+                                <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
                                 <td class="border border-black p-2 text-center">
                                     <a href="{{ route('allergeen.show', $product->Id) }}" class="text-red-600 font-bold text-xl no-underline">
                                         X
@@ -43,4 +62,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Hetzelfde script als bij de leveranciersoverzichten laat de sorteerknoppen werken -->
+    @include('leverancier.sorteer-script')
 </x-app-layout>
