@@ -9,7 +9,7 @@ use Tests\TestCase;
 class MagazijnJaminTest extends TestCase
 {
     /**
-     * Test 1: Scherm Overzicht Magazijn Jamin toont producten gesorteerd op Barcode.
+     * Test 1: Scherm Overzicht Magazijn Jamin toont alleen actieve producten gesorteerd op Barcode.
      */
     public function test_overzicht_magazijn_wordt_getoond(): void
     {
@@ -20,8 +20,9 @@ class MagazijnJaminTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Overzicht Magazijn Jamin');
         $response->assertSee('Mintnopjes');
-        $response->assertSee('Winegums');
         $response->assertSee('Zoute Ruitjes');
+        // Winegums is niet meer actief (IsActief = 0), dus staat niet in het overzicht
+        $response->assertDontSee('Winegums');
     }
 
     /**

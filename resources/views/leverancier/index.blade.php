@@ -67,6 +67,9 @@
                     </tbody>
                 </table>
 
+                <!-- Home-knop onder de tabel -->
+                <x-terug-knoppen />
+
             </div>
         </div>
     </div>

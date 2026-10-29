@@ -43,7 +43,8 @@
                                 <td class="border border-black p-2">{{ $product->Naam }}</td>
                                 <!-- data-waarde bevat het getal met een punt, zodat het goed sorteert (2,5 wordt 2.5) -->
                                 <td class="border border-black p-2" data-waarde="{{ $product->VerpakkingsEenheid }}">{{ str_replace('.', ',', (string)$product->VerpakkingsEenheid) }}</td>
-                                <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
+                                <!-- Staat er niets in het magazijn (leeg/NULL)? Dan tonen we 0 -->
+                                <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig ?? 0 }}">{{ $product->AantalAanwezig ?? 0 }}</td>
                                 <td class="border border-black p-2 text-center">
                                     <a href="{{ route('allergeen.show', $product->Id) }}" class="text-red-600 font-bold text-xl no-underline">
                                         X
@@ -58,6 +59,9 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                <!-- Home-knop onder de tabel -->
+                <x-terug-knoppen />
 
             </div>
         </div>
