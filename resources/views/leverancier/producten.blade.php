@@ -14,6 +14,11 @@
                     <u>Geleverde producten</u>
                 </h1>
 
+                <!-- Bevestiging na het opslaan van een nieuwe levering -->
+                @if (session('status'))
+                    <p class="mb-4 text-green-700">{{ session('status') }}</p>
+                @endif
+
                 <!-- Gegevens van de gekozen leverancier -->
                 <div class="mb-6 space-y-1 text-base text-gray-900">
                     <p>Leverancier: {{ $leverancier->Naam }}</p>
@@ -43,6 +48,7 @@
                                         <span>Laatste levering</span> <span class="pijl">⇅</span>
                                     </button>
                                 </th>
+                                <th class="border border-black p-2 text-center font-normal">Nieuwe levering</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +58,17 @@
                                     <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
                                     <td class="border border-black p-2" data-waarde="{{ $product->DatumLaatsteLevering }}">
                                         {{ date('d-m-Y', strtotime($product->DatumLaatsteLevering)) }}
+                                    </td>
+                                    <td class="border border-black p-2 text-center">
+                                        <!-- Plus-icoon: link naar het formulier Levering product -->
+                                        <a href="{{ route('leveranciers.levering.create', [$leverancier->Id, $product->ProductId]) }}"
+                                           title="Nieuwe levering"
+                                           class="inline-block text-blue-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                            </svg>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
