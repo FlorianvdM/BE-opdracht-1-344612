@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AllergeenController;
+use App\Http\Controllers\LeverancierController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\MagazijnController;
+use App\Http\Controllers\NieuweLeveringController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +34,24 @@ Route::middleware('auth')->group(function () {
 
     // User Story 2: Detailscherm Allergeneninformatie (Wireframe 3)
     Route::get('/allergeen/{productId}', [AllergeenController::class, 'show'])->name('allergeen.show');
+
+    // Opdracht 2 - User Story 1: Overzicht leveranciers (Wireframe 01)
+    Route::get('/leveranciers', [LeverancierController::class, 'index'])->name('leveranciers.index');
+
+    // Opdracht 2 - User Story 1: Geleverde producten van een leverancier (Wireframe 02 en 03)
+    Route::get('/leveranciers/{id}/producten', [LeverancierController::class, 'producten'])
+        ->whereNumber('id')
+        ->name('leveranciers.producten');
+
+    // Opdracht 2 - User Story 2: formulier "Levering product" tonen (Wireframe 04)
+    Route::get('/leveranciers/{leverancierId}/producten/{productId}/levering', [NieuweLeveringController::class, 'create'])
+        ->whereNumber(['leverancierId', 'productId'])
+        ->name('leveranciers.levering.create');
+
+    // Opdracht 2 - User Story 2: nieuwe levering opslaan
+    Route::post('/leveranciers/{leverancierId}/producten/{productId}/levering', [NieuweLeveringController::class, 'store'])
+        ->whereNumber(['leverancierId', 'productId'])
+        ->name('leveranciers.levering.store');
 });
 
 require __DIR__.'/auth.php';

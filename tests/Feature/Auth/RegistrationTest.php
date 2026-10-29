@@ -10,6 +10,7 @@ test('new users can register', function () {
     $response = $this->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',
+        'role' => 'Magezijnmedewerker', // nieuw: het formulier vraagt ook om een rol
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);
