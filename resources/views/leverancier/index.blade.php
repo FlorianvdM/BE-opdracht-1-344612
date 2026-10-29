@@ -7,14 +7,37 @@
                     <u>Overzicht Leveranciers</u>
                 </h1>
 
-                <table class="w-full border-collapse border border-black text-left text-base">
+                <!-- class "sorteerbaar" zorgt dat de sorteerknoppen werken -->
+                <table class="sorteerbaar w-full border-collapse border border-black text-left text-base">
                     <thead>
                         <tr>
-                            <th class="border border-black p-2 font-normal">Naam</th>
-                            <th class="border border-black p-2 font-normal">Contactpersoon</th>
-                            <th class="border border-black p-2 font-normal">Leveranciernummer</th>
-                            <th class="border border-black p-2 font-normal">Mobiel</th>
-                            <th class="border border-black p-2 font-normal">Aantal verschillende producten</th>
+                            <!-- Elke knop in de kop sorteert zijn eigen kolom -->
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="0" data-type="tekst">
+                                    <span>Naam</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="tekst">
+                                    <span>Contactpersoon</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="tekst">
+                                    <span>Leveranciernummer</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="3" data-type="tekst">
+                                    <span>Mobiel</span> <span class="pijl">⇅</span>
+                                </button>
+                            </th>
+                            <!-- Standaard staat deze kolom aflopend gesorteerd (user story) -->
+                            <th class="border border-black p-2 font-normal">
+                                <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="4" data-type="getal" data-richting="aflopend">
+                                    <span>Aantal verschillende producten</span> <span class="pijl">▼</span>
+                                </button>
+                            </th>
                             <th class="border border-black p-2 text-center font-normal">Toon producten</th>
                         </tr>
                     </thead>
@@ -26,7 +49,7 @@
                                 <td class="border border-black p-2">{{ $leverancier->ContactPersoon }}</td>
                                 <td class="border border-black p-2">{{ $leverancier->LeverancierNummer }}</td>
                                 <td class="border border-black p-2">{{ $leverancier->Mobiel }}</td>
-                                <td class="border border-black p-2">{{ $leverancier->AantalVerschillendeProducten }}</td>
+                                <td class="border border-black p-2" data-waarde="{{ $leverancier->AantalVerschillendeProducten }}">{{ $leverancier->AantalVerschillendeProducten }}</td>
                                 <td class="border border-black p-2 text-center">
                                     <!-- Box-icoon: link naar het scherm Geleverde producten -->
                                     <a href="{{ route('leveranciers.producten', $leverancier->Id) }}"
@@ -47,4 +70,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Het script dat de sorteerknoppen laat werken -->
+    @include('leverancier.sorteer-script')
 </x-app-layout>

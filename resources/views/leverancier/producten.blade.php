@@ -24,20 +24,33 @@
 
                 @if (count($producten) > 0)
                     <!-- Scenario 01: tabel met de geleverde producten -->
-                    <table class="w-full border-collapse border border-black text-left text-base">
+                    <table class="sorteerbaar w-full border-collapse border border-black text-left text-base">
                         <thead>
                             <tr>
-                                <th class="border border-black p-2 font-normal">Naam product</th>
-                                <th class="border border-black p-2 font-normal">Aantal in magazijn</th>
-                                <th class="border border-black p-2 font-normal">Laatste levering</th>
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="0" data-type="tekst">
+                                        <span>Naam product</span> <span class="pijl">⇅</span>
+                                    </button>
+                                </th>
+                                <!-- Standaard staat deze kolom aflopend gesorteerd (user story) -->
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="1" data-type="getal" data-richting="aflopend">
+                                        <span>Aantal in magazijn</span> <span class="pijl">▼</span>
+                                    </button>
+                                </th>
+                                <th class="border border-black p-2 font-normal">
+                                    <button type="button" class="sorteer-knop flex w-full items-center justify-between gap-2 hover:underline" data-kolom="2" data-type="datum">
+                                        <span>Laatste levering</span> <span class="pijl">⇅</span>
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($producten as $product)
                                 <tr>
                                     <td class="border border-black p-2">{{ $product->ProductNaam }}</td>
-                                    <td class="border border-black p-2">{{ $product->AantalAanwezig }}</td>
-                                    <td class="border border-black p-2">
+                                    <td class="border border-black p-2" data-waarde="{{ $product->AantalAanwezig }}">{{ $product->AantalAanwezig }}</td>
+                                    <td class="border border-black p-2" data-waarde="{{ $product->DatumLaatsteLevering }}">
                                         {{ date('d-m-Y', strtotime($product->DatumLaatsteLevering)) }}
                                     </td>
                                 </tr>
@@ -60,4 +73,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Het script dat de sorteerknoppen laat werken (alleen nodig als er een tabel is) -->
+    @if (count($producten) > 0)
+        @include('leverancier.sorteer-script')
+    @endif
 </x-app-layout>
